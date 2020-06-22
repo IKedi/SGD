@@ -491,7 +491,7 @@ end
 gameid = num_encryption(tostring(gameid), true)
 
 local function gensupgames()
-	local _gid = game:HttpGet('https://api.github.com/repos/IKedi/ikedi.github.io/contents/app/scripts/sgd/lib')
+	local _gid = game:HttpGet('https://api.github.com/repos/IKedi/SGD/contents/lib')
 
 	_gid = string.split(_gid, '"name"')
 
@@ -546,7 +546,7 @@ wait(0.1)
 local function getsettings()
 	local function sc()
 		local _int = 0
-		local a = game:HttpGet("https://ikedi.github.io/app/scripts/sgd/credits.txt")
+		local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/credits.txt")
 		local b = string.split(a, "|")
 		local c = string.split(b[2], '?')
 		_int = b[1]
@@ -557,7 +557,7 @@ local function getsettings()
 		return
 	end
 	local function sa()
-		local a = game:HttpGet("http://ikedi.github.io/app/scripts/sgd/lib/"..gameid..".lua")
+		local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua")
 		local set = string.split(a, '--')[2]
 		local _e = set.split(set, ',')
 		---
@@ -591,7 +591,7 @@ local function run()
 	if _G.sgd_kill then
 		_G.sgd_kill = false
 		Start_butt.Text = 'Stop'
-		loadstring(game:HttpGet("http://ikedi.github.io/app/scripts/sgd/lib/"..gameid..".lua"))()
+		loadstring(game:HttpGet("https://github.com/IKedi/SGD/blob/master/lib/"..gameid..".lua"))()
 	else
 		Start_butt.Text = 'Start'
 		_G.sgd_kill = true

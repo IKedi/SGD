@@ -555,7 +555,6 @@ function get_info(gi_string, gi_find)
     end
 
 	if gi_found then
-		print(gi_string)
         return gi_string
     else
         return 'Value not found'

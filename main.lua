@@ -505,8 +505,6 @@ local function gensupgames()
 				gamesup = true 
 			end
 
-			local _gamename = game:GetService("MarketplaceService"):GetProductInfo(_gid).Name
-
 			local gen = Instance.new("TextButton")
 
 			gen.Name = _gid
@@ -517,7 +515,7 @@ local function gensupgames()
 			gen.Size = UDim2.new(0, 228, 0, 50)
 			gen.ZIndex = 0
 			gen.Font = Enum.Font.GothamBold
-			gen.Text = _gamename..' ('.._gid..')'
+			gen.Text = game:GetService("MarketplaceService"):GetProductInfo(tonumber(_gid)).Name..' ('.._gid..')'
 			gen.TextColor3 = Color3.fromRGB(255, 255, 255)
 			gen.TextScaled = true
 			gen.TextSize = 14.000
@@ -542,9 +540,31 @@ end
 gensupgames()
 wait(0.1)
 
+function get_info(gi_string, gi_find)
+    local gi_found = false
+
+    gi_string = string.split(gi_string, '--')[2]
+    gi_string = string.split(gi_string, ',')
+
+    for i, gi_splitted in ipairs(gi_string) do
+        local gi_splitval = string.split(gi_splitted, ':')
+        if gi_splitval[1] == gi_find then
+            gi_string = gi_splitval[2]
+            gi_found = true
+        end
+    end
+
+	if gi_found then
+		print(gi_string)
+        return gi_string
+    else
+        return 'Value not found'
+    end
+end
+
 -----
 local function getsettings()
-	local function sc()
+	local function credits()
 		local _int = 0
 		local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/credits.txt")
 		local b = string.split(a, "|")
@@ -556,30 +576,43 @@ local function getsettings()
 		end
 		return
 	end
-	local function sa()
+	local function setmain()
 		local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua")
-		local set = string.split(a, '--')[2]
-		local _e = set.split(set, ',')
-		---
-		_G.multiplier = string.split(string.split(_e[1], '|')[2], ':')[2]
-		if string.split(string.split(_e[1], '|')[2], ':')[2]:find('@') then
-			Multiplier_label.Text = string.split(string.split(string.split(_e[1], '|')[2], ':')[2], '@')[2]
-			_G.multiplier = string.split(string.split(string.split(_e[1], '|')[2], ':')[2], '@')[1]
-		end
-		scredit_label.Text = 'Script made by '..string.split(string.split(_e[3], '|')[2], ':')[2]
-		
-		local __ascheck = string.split(string.split(_e[2], '|')[2], ':')[2]
 
-		if __ascheck == 'false' then
+		local set_creator = get_info(a, 'By')
+		local set_multiplier = get_info(a, 'Multiplier')
+		local set_autosell = get_info(a, 'AutoSell')
+
+		local vnf = 'Value not found'
+
+		if set_creator == vnf then
+			set_creator = 'Unknown'
+		end
+		if set_multiplier == vnf then
+			set_multiplier = '0'
+		end
+		if set_autosell == vnf then
+			set_autosell = 'false'
+		end
+
+		---
+		_G.multiplier = set_multiplier
+		if set_multiplier:find('@') then
+			_G.multiplier = string.split(set_multiplier, '@')[2]
+			Multiplier_label.Text = string.split(set_multiplier, '@')[1]
+		end
+		scredit_label.Text = 'Script made by '..set_creator
+
+		if set_autosell == 'false' then
 			AS_label:Destroy()
-		elseif __ascheck ~= 'false' and __ascheck ~= 'true' then
-			AS_label.Text = __ascheck
+		elseif set_autosell ~= 'false' and set_autosell ~= 'true' then
+			AS_label.Text = set_autosell
 		end
 		---
 		return
 	end
-	sc()
-	if gamesup then sa() end
+	credits()
+	if gamesup then setmain() end
 	visual()
 	return
 end
@@ -591,7 +624,7 @@ local function run()
 	if _G.sgd_kill then
 		_G.sgd_kill = false
 		Start_butt.Text = 'Stop'
-		loadstring(game:HttpGet("https://github.com/IKedi/SGD/blob/master/lib/"..gameid..".lua"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua"))()
 	else
 		Start_butt.Text = 'Start'
 		_G.sgd_kill = true

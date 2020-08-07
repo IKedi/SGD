@@ -1,6 +1,7 @@
 local togkey = "f"
 local stogkey = "g"
 local guispeed = 0.3
+
 local isblur = false
 local plr = game.Players.LocalPlayer
 local m = plr:GetMouse()
@@ -18,11 +19,6 @@ _G.sgd_autosell = true
 
 local cboxempty = "http://www.roblox.com/asset/?id=4893785522"
 local cboxchecked = "http://www.roblox.com/asset/?id=4893785781"
-
-function notify(txt)
-	if _G.sgd_shownotif == false then return;end
-	game.StarterGui:SetCore("SendNotification", {Title = "SGD"; Text = txt;})
-end
 
 --Gui stuff
 
@@ -453,6 +449,66 @@ game.CoreGui.ChildAdded:Connect(function(child)
 	end
 end)
 
+function notify(txt)
+    local Notif_Drag = Instance.new("Frame")
+    local Notif_Main = Instance.new("Frame")
+    local Notif_Text = Instance.new("TextLabel")
+    local Notif_OK = Instance.new("TextButton")
+
+    Notif_Drag.Name = "Notif_Drag"
+    Notif_Drag.Parent = SGD
+    Notif_Drag.Active = true
+    Notif_Drag.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+    Notif_Drag.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Notif_Drag.BorderSizePixel = 2
+    Notif_Drag.Draggable = true
+    Notif_Drag.Position = UDim2.new(0.474, 0, 0.322, 0)
+    Notif_Drag.Selectable = true
+    Notif_Drag.Size = UDim2.new(0, 334, 0, 20)
+
+    Notif_Main.Name = "Notif_Main"
+    Notif_Main.Parent = Notif_Drag
+    Notif_Main.BackgroundColor3 = Color3.fromRGB(55, 55, 75)
+    Notif_Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Notif_Main.BorderSizePixel = 2
+    Notif_Main.Position = UDim2.new(0, 0, 1.1220001, 0)
+    Notif_Main.Size = UDim2.new(0, 334, 0, 125)
+
+    Notif_Text.Name = "Notif_Text"
+    Notif_Text.Parent = Notif_Main
+    Notif_Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Notif_Text.BackgroundTransparency = 1
+    Notif_Text.Position = UDim2.new(0, 5, 0, 5)
+    Notif_Text.Size = UDim2.new(0, 324, 0, 75)
+    Notif_Text.Text = txt
+    Notif_Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Notif_Text.TextSize = 14.000
+    Notif_Text.TextStrokeTransparency = 0.000
+    Notif_Text.TextWrapped = true
+    Notif_Text.TextXAlignment = Enum.TextXAlignment.Left
+    Notif_Text.TextYAlignment = Enum.TextYAlignment.Top
+
+    Notif_OK.Name = "Notif_OK"
+    Notif_OK.Parent = Notif_Main
+    Notif_OK.BackgroundColor3 = Color3.fromRGB(55, 55, 85)
+    Notif_OK.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Notif_OK.Position = UDim2.new(0.589, 5, 0.726, 0)
+    Notif_OK.Size = UDim2.new(0, 100, 0, 25)
+    Notif_OK.Font = Enum.Font.SourceSans
+    Notif_OK.Text = "OK"
+    Notif_OK.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Notif_OK.TextSize = 14.000
+    Notif_OK.TextWrapped = true
+
+    if string.len(txt) > 85 then
+        Notif_Text.TextScaled = true
+    end
+
+    Notif_OK.MouseButton1Click:Connect(function()
+        Notif_Drag:Destroy()
+    end)
+end
+
 local function visual()
 	set_tkbox.PlaceholderText = togkey
 	set_stkbox.PlaceholderText = stogkey
@@ -523,7 +579,9 @@ local function gensupgames()
 			gen.TextWrapped = true
 
 			gen.MouseButton1Click:Connect(function()
-				game:GetService("TeleportService"):Teleport(gen.Name,plr)
+				if Lib_butt.BackgroundColor3 == Color3.fromRGB(45, 45, 75) then
+					game:GetService("TeleportService"):Teleport(gen.Name,plr)
+				end
 			end)
 
 			local _cs = lib_scroll.CanvasSize
@@ -575,8 +633,8 @@ local function getsettings()
 		end
 		return
 	end
-	local function setmain()
-		local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua")
+    local function setmain()
+        local a = game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua")
 
 		local set_creator = get_info(a, 'By')
 		local set_multiplier = get_info(a, 'Multiplier')
@@ -585,15 +643,14 @@ local function getsettings()
 		local vnf = 'Value not found'
 
 		if set_creator == vnf then
-			set_creator = 'Unknown'
+            set_creator = 'Unknown'
 		end
 		if set_multiplier == vnf then
-			set_multiplier = '0'
+            set_multiplier = '1'
 		end
 		if set_autosell == vnf then
-			set_autosell = 'false'
-		end
-
+            set_autosell = 'false'
+        end
 		---
 		_G.multiplier = set_multiplier
 		if set_multiplier:find('@') then

@@ -13,10 +13,6 @@ local istabpro = false
 local gamesup = false
 local bigded = false
 
-_G.multiplier = '1'
-_G.sgd_kill = true
-_G.sgd_autosell = true
-
 local cboxempty = "http://www.roblox.com/asset/?id=4893785522"
 local cboxchecked = "http://www.roblox.com/asset/?id=4893785781"
 
@@ -513,7 +509,6 @@ local function visual()
 	set_tkbox.PlaceholderText = togkey
 	set_stkbox.PlaceholderText = stogkey
 	set_gsbox.PlaceholderText = tostring(guispeed)
-	Multiplier_box.Text = _G.multiplier
 	return
 end
 
@@ -652,9 +647,9 @@ local function getsettings()
             set_autosell = 'false'
         end
 		---
-		_G.multiplier = set_multiplier
+		Multiplier_box.Text = set_multiplier
 		if set_multiplier:find('@') then
-			_G.multiplier = string.split(set_multiplier, '@')[2]
+			Multiplier_box.Text = string.split(set_multiplier, '@')[2]
 			Multiplier_label.Text = string.split(set_multiplier, '@')[1]
 		end
 		scredit_label.Text = 'Game script made by '..set_creator
@@ -677,13 +672,11 @@ getsettings()
 
 -----
 local function run()
-	if _G.sgd_kill then
-		_G.sgd_kill = false
+	if Start_butt.Text == 'Start' then
 		Start_butt.Text = 'Stop'
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/IKedi/SGD/master/lib/"..gameid..".lua"))()
 	else
 		Start_butt.Text = 'Start'
-		_G.sgd_kill = true
 	end
 end
 
@@ -789,9 +782,6 @@ set_gsbox.FocusLost:Connect(function()
 	guispeed = set_gsbox.Text
 	visual()
 end)
-Multiplier_box.Changed:Connect(function()
-	_G.multiplier = Multiplier_box.Text
-end)
 set_blurcbox.MouseButton1Click:Connect(function()
 	if isblur then
 		set_blurcbox.Image = cboxempty
@@ -805,12 +795,10 @@ set_blurcbox.MouseButton1Click:Connect(function()
 	visual()
 end)
 AS_cbox.MouseButton1Click:Connect(function()
-	if _G.sgd_autosell then
+	if AS_cbox.Image == cboxchecked then
 		AS_cbox.Image = cboxempty
-		_G.sgd_autosell = false
 	else
 		AS_cbox.Image = cboxchecked
-		_G.sgd_autosell = true
 	end
 	visual()
 end)

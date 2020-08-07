@@ -1,7 +1,13 @@
 --Multiplier:Wait time (if laggy),AutoSell:false,By:IKedi--
+
+local sgd = game.CoreGui['Fakt_SGD'].Top.Main.Body
+local sgd_k = sgd.Start_butt
+local sgd_m = sgd.Multiplier_box
+local sgd_a = sgd.AS_label.AS_cbox
+local rem = game:GetService("ReplicatedStorage").Network
+
 while wait() do
-	local rem = game:GetService("ReplicatedStorage").Network
-	if _G.sgd_kill then return end
+	if sgd_k.Text == 'Start' then return end
 	for i, o in ipairs(rem:GetChildren()) do
 		if o.ClassName == 'RemoteEvent' then
 			local _a_str = string.split(game:GetService("Players").LocalPlayer.PlayerGui.Main.Currency.Fizz.Amount.Text, '/')
@@ -12,7 +18,7 @@ while wait() do
 			for i, _c in ipairs(game:GetService("Workspace").Loots:GetChildren()) do
 				o:FireServer("CollectLoot", _c)
 			end
-			wait(tonumber(_G.multiplier))
+			wait(tonumber(sgd_m.Text))
 		end
 	end  
 end

@@ -1,3 +1,5 @@
+#Outdated
+
 # Creating scripts
 
 **YOU NEED AN EXPLOIT THAT SUPPORTS** ```writefile()``` **FUNCTION**

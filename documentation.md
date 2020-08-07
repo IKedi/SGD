@@ -1,4 +1,4 @@
-#Outdated
+# Outdated
 
 # Creating scripts
 

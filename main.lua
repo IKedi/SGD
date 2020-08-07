@@ -657,7 +657,7 @@ local function getsettings()
 			_G.multiplier = string.split(set_multiplier, '@')[2]
 			Multiplier_label.Text = string.split(set_multiplier, '@')[1]
 		end
-		scredit_label.Text = 'Script made by '..set_creator
+		scredit_label.Text = 'Game script made by '..set_creator
 
 		if set_autosell == 'false' then
 			AS_label:Destroy()

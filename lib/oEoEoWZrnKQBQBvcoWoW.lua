@@ -1,4 +1,4 @@
---Multiplier:5,AutoSell:false,By:IKedi--
+--Multiplier:5,AutoSell:true,By:IKedi--
 
 local sgd = game.CoreGui['Fakt_SGD'].Top.Main.Body
 local sgd_k = sgd.Start_butt

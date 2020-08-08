@@ -1,4 +1,4 @@
---Multiplier:6,AutoSell:true,By:IKedi--
+--Multiplier:5,AutoSell:true,By:IKedi--
 
 local sgd = game.CoreGui['Fakt_SGD'].Top.Main.Body
 local sgd_k = sgd.Start_butt
@@ -25,7 +25,7 @@ while wait() do
 		       wait()
 		       plr.Character.HumanoidRootPart.CFrame = CFrame.new(-79.1455536, 51.0369606, -91.2797852, 0.829343677, 5.03827451e-08, -0.558738828, -4.25581383e-08, 1, 2.70026366e-08, 0.558738828, 1.38441958e-09, 0.829343677)
 		       wait()
-		       plr.Character.HumanoidRootPart.CFrame = Vector3.new(lpos)
+		       plr.Character.HumanoidRootPart.CFrame = lpos
 		    end
 	    end
 	end
